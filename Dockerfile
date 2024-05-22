@@ -2,18 +2,16 @@
 FROM --platform=linux/amd64 golang:latest
 
 # Устанавливаем рабочую директорию внутри контейнера
-WORKDIR /go/src/newbot
+WORKDIR /newbot
 
-# Копируем все остальные файлы из исходной директории в рабочую директорию внутри контейнера
-COPY . .
+# Копируем все файлы из локального проекта "newbot" в рабочую директорию контейнера
+COPY newbot .
 
-# Установка зависимостей
+# Устанавливаем зависимости
 RUN go mod download
 
-WORKDIR /go/src/newbot/cmd
-
 # Собираем приложение
-RUN go build -o main
+RUN go build cmd/main.go
 
 # Запускаем приложение при запуске контейнера
 CMD ["./main"]
